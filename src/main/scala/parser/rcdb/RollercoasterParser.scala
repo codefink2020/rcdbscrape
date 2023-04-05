@@ -37,11 +37,11 @@ class RollercoasterParser {
     val doc = Jsoup.connect(link).get()
     val status = parseStatus(doc.select("#feature p"))
     val result: Rollercoaster = Rollercoaster(
-      name = doc.select("#feature h1").text(),
-      park = doc.select("#feature a:nth-of-type(1)").text(),
-      city = doc.select("#feature a:nth-of-type(2)").text(),
-      province = doc.select("#feature a:nth-of-type(3)").text(),
-      country = doc.select("#feature a:nth-of-type(4)").text(),
+      name = doc.select("#feature div h1").text(),
+      park = doc.select("#feature > div > a:nth-of-type(1)").text(),
+      city = doc.select("#feature > div > a:nth-of-type(2)").text(),
+      province = doc.select("#feature > div > a:nth-of-type(3)").text(),
+      country = doc.select("#feature > div > a:nth-of-type(4)").text(),
       status = status._1 ,
       opening = status._2,
       closing = status._3
@@ -53,8 +53,9 @@ class RollercoasterParser {
 
   def parseStatus(block: Elements): (String, Option[String], Option[String]) = {
 
-    val status = block.select("p:nth-of-type(1) a:nth-of-type(1)")
-    println(status)
+    val pstatus = block.select("p:nth-of-type(1)> a:nth-of-type(1)").text()
+    val status = assignstate(pstatus)
+
     var stopped: Option[String] = None
     val started = Some(block.select("p time:nth-of-type(1)").attr("datetime"))
     println("started: " + started)
@@ -64,7 +65,24 @@ class RollercoasterParser {
       stopped = Some(block.select("p time:nth-of-type(2)").attr("datetime"))
     }
     println("stopped: " + stopped)
-    ("status", started, stopped)
+    (status, started, stopped)
+  }
+  def assignstate(str: String): String = {
+    if(str.contains("Operating")) {
+      "Operating"
+    } else if(str.contains("In Business")) {
+      "In Business"
+    } else if(str.contains("In Production")) {
+      "In Production"
+    } else if(str.contains("Living")) {
+      "Living"
+    }else if(str.contains("SBNO")) {
+      "standing but not operating"
+    }else if(str.contains("In storage")) {
+      "In storage"
+    } else {
+      "CheckSite"
+    }
   }
   def display(r: Rollercoaster):Unit = {
     println(s"name: ${r.name}")
@@ -72,6 +90,9 @@ class RollercoasterParser {
     println(s"province: ${r.province}")
     println(s"city: ${r.city}")
     println(s"country: ${r.country}")
+    println(s"status: ${r.status}")
+    println(s"started: ${r.opening}")
+    println(s"stopped: ${r.closing}")
   }
 
 
