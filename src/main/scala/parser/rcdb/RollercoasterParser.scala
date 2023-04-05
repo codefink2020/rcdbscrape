@@ -44,17 +44,24 @@ class RollercoasterParser {
       country = doc.select("#feature > div > a:nth-of-type(4)").text(),
       status = status._1 ,
       opening = status._2,
-      closing = status._3
+      closing = status._3,
+      classification = Some(assignClassification(doc.select("#feature > ul:nth-of-type(1) > li:nth-of-type(1) > a").text())),
+      rctype = Some(assignRcType(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(2) > a").text())),
+      scale = Some(assignScale(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(4) > a").text())),
+      design = Some(assignDesign(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(3) > a").text())),
+      trackLayout = None,
+      category = None,
+      restraints = None
     )
     display(result)
     result
 
   }
 
-  def parseStatus(block: Elements): (String, Option[String], Option[String]) = {
+  private def parseStatus(block: Elements): (String, Option[String], Option[String]) = {
 
     val pstatus = block.select("p:nth-of-type(1)> a:nth-of-type(1)").text()
-    val status = assignstate(pstatus)
+    val status = assignState(pstatus)
 
     var stopped: Option[String] = None
     val started = Some(block.select("p time:nth-of-type(1)").attr("datetime"))
@@ -67,7 +74,7 @@ class RollercoasterParser {
     println("stopped: " + stopped)
     (status, started, stopped)
   }
-  def assignstate(str: String): String = {
+  private def assignState(str: String): String = {
     if(str.contains("Operating")) {
       "Operating"
     } else if(str.contains("In Business")) {
@@ -84,7 +91,34 @@ class RollercoasterParser {
       "CheckSite"
     }
   }
-  def display(r: Rollercoaster):Unit = {
+
+
+  def assignClassification(str:String):String = {
+    str
+  }
+  def assignRcType(str:String):String = {
+    str
+  }
+  def assign(str:String):String = {
+    str
+  }
+  def assignScale(str:String):String = {
+    str
+  }
+  def assignDesign(str:String):String = {
+    str
+  }
+  def assignTrackLayout(str:String):String = {
+    str
+  }
+  def assignCategory(str:String):String = {
+    str
+  }
+  def assignRestraints(str:String):String = {
+    str
+  }
+
+  private def display(r: Rollercoaster):Unit = {
     println(s"name: ${r.name}")
     println(s"park: ${r.park}")
     println(s"province: ${r.province}")
@@ -93,6 +127,14 @@ class RollercoasterParser {
     println(s"status: ${r.status}")
     println(s"started: ${r.opening}")
     println(s"stopped: ${r.closing}")
+    println(s"classification: ${r.classification}")
+    println(s"type: ${r.rctype}")
+    println(s"scale: ${r.scale}")
+    println(s"design: ${r.design}")
+    println(s"tracklayout: ${r.trackLayout}")
+    println(s"category: ${r.category}")
+    println(s"restraints: ${r.restraints}")
+
   }
 
 
