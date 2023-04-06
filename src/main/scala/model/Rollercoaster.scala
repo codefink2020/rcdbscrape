@@ -1,6 +1,7 @@
 package model
 
 case class Rollercoaster(
+                        id: String,
                         name: String,
                         park: String,
                         city: String,
@@ -13,7 +14,12 @@ case class Rollercoaster(
                         rctype: Option[String],
                         scale: Option[String],
                         design: Option[String],
+                        speed: Option[String],
+                        inversions: Option[String],
+                        elements: Option[List[String]],
                         trackLayout: Option[String],
+                        tracklength: Option[String],
+                        trackheight: Option[String],
                         category: Option[String],
                         restraints: Option[String],
                         )

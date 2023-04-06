@@ -37,6 +37,7 @@ class RollercoasterParser {
     val doc = Jsoup.connect(link).get()
     val status = parseStatus(doc.select("#feature p"))
     val result: Rollercoaster = Rollercoaster(
+      id = Math.random().toString,
       name = doc.select("#feature div h1").text(),
       park = doc.select("#feature > div > a:nth-of-type(1)").text(),
       city = doc.select("#feature > div > a:nth-of-type(2)").text(),
@@ -49,9 +50,15 @@ class RollercoasterParser {
       rctype = Some(assignRcType(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(2) > a").text())),
       scale = Some(assignScale(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(4) > a").text())),
       design = Some(assignDesign(doc.select("#feature > .ll:nth-of-type(1) > li:nth-of-type(3) > a").text())),
+      speed = None,
+      inversions = None,
       trackLayout = None,
+      tracklength = None,
+      trackheight = None,
       category = None,
-      restraints = None
+      restraints = None,
+      elements = None,
+
     )
     display(result)
     result
