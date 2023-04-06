@@ -57,7 +57,7 @@ class RollercoasterParser {
       trackheight = None,
       category = None,
       restraints = None,
-      elements = None,
+      elements = None, //todo: Parse the element find its ID and put in the list
 
     )
     display(result)

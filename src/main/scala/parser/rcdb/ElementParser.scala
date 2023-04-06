@@ -31,7 +31,9 @@ class ElementParser {
     val result = RcElement(
       id = "???", name = doc.select("#feature div h1").text(),
       description = doc.select(".text >tbody > tr > td").text(),
-      inversions = inversions, rollercoasters = None)
+      inversions = inversions,
+      rollercoasters = None //todo: solve the relation problem//
+    )
 
       result
   }
@@ -39,10 +41,9 @@ class ElementParser {
     val x = doc.select(".stat-tbl")
     var inversions: String = "0"
     if (x.text().contains("Inversions")) {
-
+      inversions = x.select(" tbody > tr:nth-of-type(1) > td").text()
     }
-    println(x)
-    x.toString
+    inversions
   }
 
 }
