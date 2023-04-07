@@ -33,11 +33,11 @@ class RollercoasterParser {
 
 
 
-  def getDetails(link: String): Rollercoaster = {
-    val doc = Jsoup.connect(link).get()
+  def getDetails(url: String): Rollercoaster = {
+    val doc = Jsoup.connect(url).get()
     val status = parseStatus(doc.select("#feature p"))
     val result: Rollercoaster = Rollercoaster(
-      id = Math.random().toString,
+      id = "",
       name = doc.select("#feature div h1").text(),
       park = doc.select("#feature > div > a:nth-of-type(1)").text(),
       city = doc.select("#feature > div > a:nth-of-type(2)").text(),

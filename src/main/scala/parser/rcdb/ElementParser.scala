@@ -18,9 +18,11 @@ class ElementParser {
     val rawLinks = doc.select(".sec > ul")
     rawLinks.forEach(x => {
       val anchor = x.select("a")
+      println(anchor)
       anchor.forEach(a => linkBuffer.addOne(s"https://rcdb.com${a.attr("href")}"))
     })
     linkBuffer.foreach(link => elementBuffer.addOne(getElementDetails(link)))
+    println(elementBuffer.toList)
     elementBuffer.toList
 
   }
@@ -31,11 +33,11 @@ class ElementParser {
     val result = RcElement(
       id = "???", name = doc.select("#feature div h1").text(),
       description = doc.select(".text >tbody > tr > td").text(),
-      inversions = inversions,
+      inversions = getInversions(doc),
       rollercoasters = None //todo: solve the relation problem//
     )
-
-      result
+    println(result)
+    result
   }
   def getInversions(doc: Document): String = {
     val x = doc.select(".stat-tbl")
