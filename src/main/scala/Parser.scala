@@ -1,6 +1,8 @@
 import model.{Company, RcElement}
 import parser.rcdb.{CompanyParser, ElementParser, RollercoasterParser}
 
+
+//TODO Error handling.
 object Parser extends App {
   val rcdbRCParser = new RollercoasterParser
   val rcdbElementParser = new ElementParser

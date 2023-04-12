@@ -31,12 +31,13 @@ class CompanyParser {
 
   def getDetails(url: String): Company = {
     val doc = Jsoup.connect(url).get()
+    println("getting: " + doc.select("#feature div h1").text())
     val result: Company = Company(
       name = doc.select("#feature div h1").text(),
       address = doc.select("#feature > div").first().child(1).text(),
       city = doc.select("#feature > div").first().child(2).text(),
       province = doc.select("#feature > div").first().child(3).text(),
-      country = doc.select("#feature > div").first().child(4).text(),
+      country = try doc.select("#feature > div").first().child(4).text(),
       owner = "???", status = "???", opened = "???", closed = Some("???")
     )
     display(result)
